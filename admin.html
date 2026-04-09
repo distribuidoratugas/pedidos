@@ -517,7 +517,7 @@ input, select, textarea { font-family: inherit; }
 // ══════════════════════════════════════════════════════
 // CONFIGURACIÓN
 // ══════════════════════════════════════════════════════
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyPnu3t-eFp5FYwUUn4EWsx3TqYutp0iBomtVIFlUCM66BLp_k11uONXu0-OHsu7Ss/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbxD_TD-QNFz1EJB-6zIbe0OlnOAQbP0PfXZ7Wp6RdZsEcetVLPiSzbUwlqJBiUqjN5M/exec';
 
 // Credenciales del panel (cambiar en producción)
 var ADMIN_USER = 'secretaria';
@@ -987,6 +987,21 @@ function renderDetail(p) {
       : '')
     + '<div style="margin-top:16px;padding-top:14px;border-top:1px solid #f1f5f9">'
     + '<button onclick="imprimirRecibo(\'' + id + '\')" style="width:100%;background:#1A3A6B;color:#fff;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;cursor:pointer">🖨️ Imprimir / PDF Recibo</button>'
+    + '</div>'
+    + '<div style="margin-top:10px;padding-top:14px;border-top:1px solid #f1f5f9">'
+    + '<p style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Cambiar método de pago</p>'
+    + '<div style="display:flex;gap:8px;align-items:center">'
+    + '<select id="selectPago_' + id + '" style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:10px;font-size:13px;background:#fff">'
+    + '<option value="Efectivo">💵 Efectivo</option>'
+    + '<option value="Transferencia">🏦 Transferencia</option>'
+    + '<option value="Vale Abastible">🔴 Vale Abastible</option>'
+    + '<option value="Vale Gasco">🔵 Vale Gasco</option>'
+    + '<option value="Pago al recibir">📦 Pago al recibir</option>'
+    + '<option value="Sin pago">🎁 Sin pago / Cortesía</option>'
+    + '<option value="Pendiente de pago">💳 Pendiente de pago</option>'
+    + '</select>'
+    + '<button onclick="aplicarCambioMetodoPago(\'' + id + '\')" style="padding:9px 14px;background:var(--fire);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">Aplicar</button>'
+    + '</div>'
     + '</div>';
 
   document.getElementById('detailModalBack').classList.add('open');
@@ -1136,6 +1151,31 @@ function _abrirVentanaRecibo(id, p) {
 }
 
 // ══════════════════════════════════════════════════════
+// CAMBIAR MÉTODO DE PAGO
+// ══════════════════════════════════════════════════════
+function aplicarCambioMetodoPago(id) {
+  var sel = document.getElementById('selectPago_' + id);
+  if (!sel) return;
+  var nuevoMetodo = sel.value;
+  if (!confirm('¿Cambiar método de pago de "' + id + '" a "' + nuevoMetodo + '"?')) return;
+  showLoader(true, 'Actualizando método de pago…');
+  gasCall('cambiarMetodoPago', { pedidoID: id, nuevoMetodo: nuevoMetodo })
+    .then(function(res) {
+      showLoader(false);
+      if (res.ok) {
+        var msg = '✅ Método de pago → ' + nuevoMetodo;
+        if (res.nuevoTotal) msg += ' | Total: $' + res.nuevoTotal.toLocaleString('es-CL');
+        toast(msg, 'ok');
+        closeDetail();
+        refreshAll();
+      } else {
+        toast('Error: ' + (res.error || 'Inténtalo de nuevo'), 'err');
+      }
+    })
+    .catch(function(){ showLoader(false); toast('Error de conexión', 'err'); });
+}
+
+// ══════════════════════════════════════════════════════
 // REPORTE SII
 // ══════════════════════════════════════════════════════
 function generarSII(mes, anio) {
@@ -1151,3 +1191,4 @@ function generarSII(mes, anio) {
 </script>
 </body>
 </html>
+
