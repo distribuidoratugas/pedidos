@@ -3,8 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0F172A">
+<meta name="theme-color" content="#1A3A6B">
 <title>Tu Gas — Panel Administración</title>
+ 
+<!-- Open Graph — miniatura en WhatsApp, iMessage, Telegram -->
+<meta property="og:title"       content="Tu Gas · Panel Admin">
+<meta property="og:description" content="Panel de administración de pedidos — Distribuidora Tu Gas, Macul.">
+<meta property="og:image"       content="https://lh3.googleusercontent.com/d/1vuRrxIAiHdyMlwI69pkrTB07gNGCyJRk">
+<meta property="og:image:width"  content="600">
+<meta property="og:image:height" content="600">
+<meta property="og:url"         content="https://distribuidoratugas.github.io/store/admin.html">
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="Tu Gas">
+ 
+<!-- Twitter Card (también lo usa WhatsApp como fallback) -->
+<meta name="twitter:card"        content="summary">
+<meta name="twitter:title"       content="Tu Gas · Panel Admin">
+<meta name="twitter:description" content="Panel de administración de pedidos — Distribuidora Tu Gas, Macul.">
+<meta name="twitter:image"       content="https://lh3.googleusercontent.com/d/1vuRrxIAiHdyMlwI69pkrTB07gNGCyJRk">
+ 
+<!-- SEO básico -->
+<meta name="description" content="Panel de administración de pedidos — Distribuidora Tu Gas, Macul.">
+<meta name="robots" content="noindex, nofollow">
+ 
+<link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1vuRrxIAiHdyMlwI69pkrTB07gNGCyJRk">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
@@ -29,19 +51,19 @@ html { font-size: 14px; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface); color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 button { font-family: inherit; cursor: pointer; }
 input, select, textarea { font-family: inherit; }
-
+ 
 /* ═══════════════════════════════════════════
    SIDEBAR
    ═══════════════════════════════════════════ */
 .layout { display: flex; min-height: 100vh; }
-
+ 
 .sidebar {
   width: 220px; background: var(--dark); color: #fff;
   display: flex; flex-direction: column; flex-shrink: 0;
   position: sticky; top: 0; height: 100vh; overflow-y: auto;
 }
 @media(max-width:768px) { .sidebar { display: none; } }
-
+ 
 .sidebar-brand {
   padding: 24px 20px 20px; border-bottom: 1px solid rgba(255,255,255,.07);
   display: flex; align-items: center; gap: 10px;
@@ -50,7 +72,7 @@ input, select, textarea { font-family: inherit; }
 .sidebar-brand-name { font-family: 'Fraunces', serif; font-size: 17px; }
 .sidebar-brand-name em { color: var(--fire-lt); font-style: normal; }
 .sidebar-subtitle { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 2px; text-transform: uppercase; letter-spacing: .5px; }
-
+ 
 .sidebar-nav { flex: 1; padding: 12px 0; }
 .nav-section { padding: 8px 16px 4px; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,.3); font-weight: 700; }
 .nav-item {
@@ -63,14 +85,14 @@ input, select, textarea { font-family: inherit; }
 .nav-item .ni-icon { font-size: 16px; width: 20px; text-align: center; }
 .nav-item .ni-badge { margin-left: auto; background: var(--fire); color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
 .nav-item .ni-badge.green { background: var(--success); }
-
+ 
 .sidebar-footer { padding: 16px; border-top: 1px solid rgba(255,255,255,.07); font-size: 11px; color: rgba(255,255,255,.3); }
-
+ 
 /* ═══════════════════════════════════════════
    MAIN AREA
    ═══════════════════════════════════════════ */
 .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-
+ 
 .topbar {
   background: var(--dark); color: #fff; padding: 0 24px;
   height: 58px; display: flex; align-items: center; justify-content: space-between;
@@ -83,9 +105,9 @@ input, select, textarea { font-family: inherit; }
 .topbar-badge { background: var(--fire-pale); color: var(--fire-dk); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
 .refresh-btn { background: rgba(255,255,255,.1); border: none; color: #fff; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; transition: background .18s; }
 .refresh-btn:hover { background: rgba(255,255,255,.18); }
-
+ 
 .content { padding: 24px; flex: 1; }
-
+ 
 /* ═══════════════════════════════════════════
    KPI CARDS
    ═══════════════════════════════════════════ */
@@ -99,16 +121,16 @@ input, select, textarea { font-family: inherit; }
 .kpi-card.yellow .kpi-value { color: var(--warn-dk); }
 .kpi-card.blue .kpi-value { color: var(--info-dk); }
 .kpi-card.red .kpi-value { color: var(--danger); }
-
+ 
 /* ═══════════════════════════════════════════
    TABS / VIEWS
    ═══════════════════════════════════════════ */
 .view { display: none; }
 .view.active { display: block; }
-
+ 
 .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .section-head h2 { font-family: 'Fraunces', serif; font-size: 20px; }
-
+ 
 /* ═══════════════════════════════════════════
    FILTERS BAR
    ═══════════════════════════════════════════ */
@@ -128,11 +150,11 @@ input, select, textarea { font-family: inherit; }
 .filter-btn.blue.active   { background: var(--info); border-color: var(--info); }
 .filter-btn.yellow.active { background: var(--warn); border-color: var(--warn); }
 .filter-btn.red.active    { background: var(--danger); border-color: var(--danger); }
-
+ 
 .search-box { margin-left: auto; }
 .search-inp { padding: 7px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 12px; width: 180px; background: var(--surface); }
 .search-inp:focus { outline: none; border-color: var(--fire); background: #fff; }
-
+ 
 /* ═══════════════════════════════════════════
    ORDERS TABLE
    ═══════════════════════════════════════════ */
@@ -145,7 +167,7 @@ input, select, textarea { font-family: inherit; }
 .orders-table .col-id { font-weight: 700; font-family: monospace; font-size: 11px; color: var(--fire); }
 .orders-table .col-cliente { font-weight: 600; }
 .orders-table .col-muted { color: var(--muted); }
-
+ 
 /* Status badges */
 .badge {
   display: inline-flex; align-items: center; gap: 4px;
@@ -155,7 +177,7 @@ input, select, textarea { font-family: inherit; }
 .badge-transit  { background: var(--info-pale);    color: var(--info-dk); }
 .badge-done     { background: var(--success-pale); color: var(--success-dk); }
 .badge-cancel   { background: var(--danger-pale);  color: var(--danger-dk); }
-
+ 
 /* Action buttons in table */
 .tbl-btn { padding: 5px 10px; border-radius: 6px; border: 1.5px solid var(--border); background: #fff; font-size: 11px; font-weight: 600; cursor: pointer; transition: all .15s; color: var(--text); }
 .tbl-btn:hover { border-color: var(--fire); color: var(--fire); background: var(--fire-pale); }
@@ -165,13 +187,13 @@ input, select, textarea { font-family: inherit; }
 .tbl-btn-done:hover { background: var(--success); color: #fff; }
 .tbl-btn-cancel  { border-color: var(--danger); color: var(--danger); }
 .tbl-btn-cancel:hover { background: var(--danger); color: #fff; }
-
+ 
 /* Responsive table scroll */
 .table-scroll { overflow-x: auto; }
 .table-loading { text-align: center; padding: 48px; color: var(--muted); }
 .table-empty { text-align: center; padding: 40px; color: var(--muted); }
 .table-empty .te-icon { font-size: 40px; margin-bottom: 10px; }
-
+ 
 /* ═══════════════════════════════════════════
    ORDER DETAIL MODAL
    ═══════════════════════════════════════════ */
@@ -199,7 +221,7 @@ input, select, textarea { font-family: inherit; }
 .est-cancel:hover  { background: var(--danger); color: #fff; }
 .est-pending { border-color: var(--warn);    color: var(--warn-dk); background: var(--warn-pale); }
 .est-pending:hover { background: var(--warn); color: #fff; }
-
+ 
 /* ═══════════════════════════════════════════
    REPORTS
    ═══════════════════════════════════════════ */
@@ -209,7 +231,7 @@ input, select, textarea { font-family: inherit; }
 .report-item { display: flex; justify-content: space-between; padding: 6px 0; font-size: 12px; border-bottom: 1px solid var(--border); }
 .report-item:last-child { border-bottom: none; font-weight: 700; font-size: 13px; padding-top: 10px; margin-top: 4px; }
 .report-val { font-weight: 700; color: var(--fire); }
-
+ 
 /* Stock items */
 .stock-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
 .stock-row:last-child { border-bottom: none; }
@@ -221,7 +243,7 @@ input, select, textarea { font-family: inherit; }
 .stock-num.ok   { color: var(--success-dk); }
 .stock-num.warn { color: var(--warn-dk); }
 .stock-num.crit { color: var(--danger); }
-
+ 
 /* ═══════════════════════════════════════════
    TOAST / LOADER
    ═══════════════════════════════════════════ */
@@ -235,7 +257,7 @@ input, select, textarea { font-family: inherit; }
 .spin { width: 44px; height: 44px; border: 4px solid rgba(255,255,255,.08); border-top-color: var(--fire); border-radius: 50%; animation: spin .9s linear infinite; }
 @keyframes spin { to{transform:rotate(360deg)} }
 .loader p { color: rgba(255,255,255,.65); font-size: 13px; }
-
+ 
 /* ═══════════════════════════════════════════
    LOGIN SCREEN
    ═══════════════════════════════════════════ */
@@ -250,7 +272,7 @@ input, select, textarea { font-family: inherit; }
 .login-btn { width: 100%; background: linear-gradient(135deg, var(--fire), var(--fire-lt)); color: #fff; border: none; border-radius: 10px; padding: 13px; font-size: 14px; font-weight: 700; margin-top: 4px; transition: all .22s; }
 .login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,82,26,.4); }
 .login-err { color: var(--danger); font-size: 12px; margin-top: 8px; }
-
+ 
 /* Mobile top nav */
 .mobile-nav { display: none; background: var(--dark); padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.07); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .mobile-nav::-webkit-scrollbar { display: none; }
@@ -261,7 +283,7 @@ input, select, textarea { font-family: inherit; }
 </style>
 </head>
 <body>
-
+ 
 <!-- LOGIN SCREEN -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
@@ -276,13 +298,13 @@ input, select, textarea { font-family: inherit; }
     <div class="login-err" id="loginErr"></div>
   </div>
 </div>
-
+ 
 <div id="appShell" style="display:none">
 <div class="loader" id="loader"><div class="spin"></div><p id="loaderTxt">Cargando…</p></div>
 <div class="toast-wrap" id="toasts"></div>
-
+ 
 <div class="layout">
-
+ 
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-brand">
@@ -328,10 +350,10 @@ input, select, textarea { font-family: inherit; }
       <span style="cursor:pointer;color:rgba(255,255,255,.35)" onclick="doLogout()">Cerrar sesión →</span>
     </div>
   </aside>
-
+ 
   <!-- MAIN -->
   <div class="main">
-
+ 
     <!-- TOPBAR -->
     <div class="topbar">
       <div class="topbar-left">
@@ -344,7 +366,7 @@ input, select, textarea { font-family: inherit; }
         <span style="color:rgba(255,255,255,.4);font-size:11px;cursor:pointer" onclick="doLogout()">Salir</span>
       </div>
     </div>
-
+ 
     <!-- MOBILE NAV -->
     <div class="mobile-nav">
       <div class="mobile-nav-item active" onclick="navTo('pedidos',this)">📋 Todos</div>
@@ -355,9 +377,9 @@ input, select, textarea { font-family: inherit; }
       <div class="mobile-nav-item" onclick="navTo('reportes',this)">📊 Reportes</div>
       <div class="mobile-nav-item" onclick="navTo('stock',this)">📦 Stock</div>
     </div>
-
+ 
     <div class="content">
-
+ 
       <!-- KPI STRIP -->
       <div class="kpi-grid">
         <div class="kpi-card yellow">
@@ -386,7 +408,7 @@ input, select, textarea { font-family: inherit; }
           <div class="kpi-sub">hoy</div>
         </div>
       </div>
-
+ 
       <!-- ─── VIEW: PEDIDOS ─── -->
       <div class="view active" id="view-pedidos">
         <div class="section-head">
@@ -427,7 +449,7 @@ input, select, textarea { font-family: inherit; }
           </div>
         </div>
       </div>
-
+ 
       <!-- ─── VIEW: PENDIENTES ─── -->
       <div class="view" id="view-pendientes">
         <div class="section-head"><h2>🟡 Pedidos Pendientes</h2></div>
@@ -440,7 +462,7 @@ input, select, textarea { font-family: inherit; }
           </div>
         </div>
       </div>
-
+ 
       <!-- ─── VIEW: EN CAMINO ─── -->
       <div class="view" id="view-encamino">
         <div class="section-head"><h2>🚚 En Camino</h2></div>
@@ -453,7 +475,7 @@ input, select, textarea { font-family: inherit; }
           </div>
         </div>
       </div>
-
+ 
       <!-- ─── VIEW: ENTREGADOS ─── -->
       <div class="view" id="view-entregados">
         <div class="section-head"><h2>✅ Entregados</h2></div>
@@ -466,7 +488,7 @@ input, select, textarea { font-family: inherit; }
           </div>
         </div>
       </div>
-
+ 
       <!-- ─── VIEW: CANCELADOS ─── -->
       <div class="view" id="view-cancelados">
         <div class="section-head"><h2>❌ Cancelados</h2></div>
@@ -479,7 +501,7 @@ input, select, textarea { font-family: inherit; }
           </div>
         </div>
       </div>
-
+ 
       <!-- ─── VIEW: REPORTES ─── -->
       <div class="view" id="view-reportes">
         <div class="section-head"><h2>📊 Reportes</h2></div>
@@ -487,7 +509,7 @@ input, select, textarea { font-family: inherit; }
           <div class="table-loading">⏳ Cargando métricas…</div>
         </div>
       </div>
-
+ 
       <!-- ─── VIEW: STOCK ─── -->
       <div class="view" id="view-stock">
         <div class="section-head"><h2>📦 Stock Actual</h2></div>
@@ -495,11 +517,11 @@ input, select, textarea { font-family: inherit; }
           <div style="padding:20px" id="stockContent"><div class="table-loading">⏳ Cargando stock…</div></div>
         </div>
       </div>
-
+ 
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /layout -->
-
+ 
 <!-- ORDER DETAIL MODAL -->
 <div class="modal-back" id="detailModalBack">
   <div class="modal">
@@ -510,19 +532,19 @@ input, select, textarea { font-family: inherit; }
     <div class="modal-body" id="detailModalBody"></div>
   </div>
 </div>
-
+ 
 </div><!-- /appShell -->
-
+ 
 <script>
 // ══════════════════════════════════════════════════════
 // CONFIGURACIÓN
 // ══════════════════════════════════════════════════════
 var GAS_URL = 'https://script.google.com/macros/s/AKfycbxD_TD-QNFz1EJB-6zIbe0OlnOAQbP0PfXZ7Wp6RdZsEcetVLPiSzbUwlqJBiUqjN5M/exec';
-
+ 
 // Credenciales del panel (cambiar en producción)
 var ADMIN_USER = 'secretaria';
 var ADMIN_PASS = 'tugas2025';
-
+ 
 // ══════════════════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════════════════
@@ -540,12 +562,12 @@ function doLogin() {
     setTimeout(function(){ e.textContent = ''; }, 3000);
   }
 }
-
+ 
 function doLogout() {
   sessionStorage.removeItem('tg_admin');
   location.reload();
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════
@@ -553,7 +575,7 @@ var allPedidos  = [];
 var filtroEstado = 'Todos';
 var currentView  = 'pedidos';
 var autoRefreshTimer = null;
-
+ 
 function gasCall(accion, params) {
   var body = Object.assign({ accion: accion }, params || {});
   return fetch(GAS_URL, {
@@ -563,7 +585,7 @@ function gasCall(accion, params) {
   }).then(function(r){ return r.json(); })
     .catch(function(e){ return { ok: false, error: e.message }; });
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════
@@ -571,20 +593,20 @@ function initApp() {
   // Set date
   var now = new Date();
   document.getElementById('topbarDate').textContent = now.toLocaleDateString('es-CL', { weekday:'short', day:'numeric', month:'short' });
-
+ 
   // Check session
   if (!sessionStorage.getItem('tg_admin')) return;
-
+ 
   refreshAll();
   // Auto-refresh every 90 seconds
   autoRefreshTimer = setInterval(refreshAll, 90000);
 }
-
+ 
 function refreshAll() {
   loadPedidos();
   loadMetricas();
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // LOAD PEDIDOS
 // ══════════════════════════════════════════════════════
@@ -604,7 +626,7 @@ function loadPedidos() {
     })
     .catch(function() { toast('Error al cargar pedidos', 'err'); });
 }
-
+ 
 function loadMetricas() {
   gasCall('getDashboardMetricas')
     .then(function(res) {
@@ -620,33 +642,33 @@ function loadMetricas() {
     })
     .catch(function(){});
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // SIDEBAR / NAV
 // ══════════════════════════════════════════════════════
 function navTo(view, el) {
   currentView = view;
-
+ 
   // Sidebar
   document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
   document.querySelectorAll('.mobile-nav-item').forEach(function(n){ n.classList.remove('active'); });
   if (el) el.classList.add('active');
-
+ 
   // Views
   document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
   var vEl = document.getElementById('view-' + view);
   if (vEl) vEl.classList.add('active');
-
+ 
   // Title
   var titles = {
     pedidos:'Todos los pedidos', pendientes:'Pendientes', encamino:'En camino',
     entregados:'Entregados', cancelados:'Cancelados', reportes:'Reportes', stock:'Stock'
   };
   document.getElementById('topbarTitle').textContent = titles[view] || view;
-
+ 
   renderCurrentView();
 }
-
+ 
 function updateSidebarCounts() {
   var counts = { Pendiente: 0, 'En camino': 0, Entregado: 0, Cancelado: 0, total: allPedidos.length };
   allPedidos.forEach(function(p) {
@@ -659,7 +681,7 @@ function updateSidebarCounts() {
   document.getElementById('sb-ent').textContent   = counts['Entregado'];
   document.getElementById('sb-can').textContent   = counts['Cancelado'];
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // RENDER VIEWS
 // ══════════════════════════════════════════════════════
@@ -674,26 +696,26 @@ function renderCurrentView() {
     case 'stock':      renderStock(); break;
   }
 }
-
+ 
 function formatItems(pedido) {
   // El backend guarda el detalle como texto en "Detalle Pedido"
   // Formato: "1x Gas Abastible 15kg ($12.000) = $12.000\n..."
   var detalle = pedido['Detalle Pedido'] || pedido['Items JSON'] || '';
   if (!detalle) return '—';
-
+ 
   // Extraer solo las líneas de productos (ignorar separadores y subtotal)
   var lineas = String(detalle).split('\n').filter(function(l) {
     return l && !l.startsWith('──') && !l.startsWith('SUBTOTAL');
   });
   if (!lineas.length) return detalle || '—';
-
+ 
   // Convertir "1x Nombre ($precio) = $total" → "Nombre ×1"
   return lineas.map(function(l) {
     var m = l.match(/^(\d+)x\s+(.+?)\s+\(\$/);
     return m ? m[2] + ' ×' + m[1] : l.trim();
   }).join(', ');
 }
-
+ 
 function estadoBadge(estado) {
   var map = {
     'Pendiente':  '<span class="badge badge-pending">🟡 Pendiente</span>',
@@ -703,12 +725,12 @@ function estadoBadge(estado) {
   };
   return map[estado] || '<span class="badge">' + (estado || '—') + '</span>';
 }
-
+ 
 function fmtClp(v) {
   var n = parseInt(v) || 0;
   return '$' + n.toLocaleString('es-CL');
 }
-
+ 
 // ── TODOS LOS PEDIDOS ──
 function setFiltro(estado, btn) {
   filtroEstado = estado;
@@ -716,9 +738,9 @@ function setFiltro(estado, btn) {
   btn.classList.add('active');
   renderPedidos();
 }
-
+ 
 function filterTable() { renderPedidos(); }
-
+ 
 function renderPedidos() {
   var query  = (document.getElementById('searchInp').value || '').toLowerCase();
   var filtered = allPedidos.filter(function(p) {
@@ -729,13 +751,13 @@ function renderPedidos() {
     }
     return true;
   });
-
+ 
   var body = document.getElementById('ordersBody');
   if (!filtered.length) {
     body.innerHTML = '<tr><td colspan="9"><div class="table-empty"><div class="te-icon">📋</div><p>No hay pedidos con este filtro.</p></div></td></tr>';
     return;
   }
-
+ 
   body.innerHTML = filtered.map(function(p) {
     var id    = p['Número de Pedido'] || p['ID Pedido'] || '';
     var fecha = p['Fecha'] || '';
@@ -745,7 +767,7 @@ function renderPedidos() {
     var total = fmtClp(p['Total CLP'] || p['Total'] || 0);
     var pago  = p['Método de Pago'] || p['Método Pago'] || '—';
     var estado= p['Estado'] || '—';
-
+ 
     return '<tr>'
       + '<td class="col-id">' + id + '</td>'
       + '<td class="col-muted">' + fecha + '</td>'
@@ -759,7 +781,7 @@ function renderPedidos() {
       + '</tr>';
   }).join('');
 }
-
+ 
 // ── PENDIENTES ──
 function renderFiltered(estado, bodyId, rowFn) {
   var body    = document.getElementById(bodyId);
@@ -770,7 +792,7 @@ function renderFiltered(estado, bodyId, rowFn) {
   }
   body.innerHTML = filtered.map(rowFn).join('');
 }
-
+ 
 function renderPendientesRow(p) {
   var id    = p['Número de Pedido'] || '';
   var hora  = p['Fecha'] || '—';
@@ -792,7 +814,7 @@ function renderPendientesRow(p) {
     + '<button class="tbl-btn" onclick="openDetail(\'' + id + '\')">Ver</button>'
     + '</td></tr>';
 }
-
+ 
 function renderEncaminoRow(p) {
   var id    = p['Número de Pedido'] || '';
   var nombre= p['Nombre Cliente'] || '—';
@@ -814,7 +836,7 @@ function renderEncaminoRow(p) {
     + '<button class="tbl-btn tbl-btn-cancel" onclick="cambiarEstadoRapido(\'' + id + '\',\'Cancelado\')">❌</button>'
     + '</td></tr>';
 }
-
+ 
 function renderEntregadosRow(p) {
   var id    = p['Número de Pedido'] || '';
   var fecha = p['Fecha'] || '—';
@@ -831,7 +853,7 @@ function renderEntregadosRow(p) {
     + '<td class="col-muted">' + pago + '</td>'
     + '</tr>';
 }
-
+ 
 function renderCanceladosRow(p) {
   var id    = p['Número de Pedido'] || '';
   var fecha = p['Fecha'] || '—';
@@ -847,20 +869,20 @@ function renderCanceladosRow(p) {
     + '<td><button class="tbl-btn" onclick="cambiarEstadoRapido(\'' + id + '\',\'Pendiente\')">↩ Reactivar</button></td>'
     + '</tr>';
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // REPORTES
 // ══════════════════════════════════════════════════════
 function renderReportes() {
   var cont = document.getElementById('reportesContent');
   cont.innerHTML = '<div class="table-loading">⏳ Calculando reportes…</div>';
-
+ 
   // Build from allPedidos — cancelados excluidos de totales financieros
   var byEstado = { Pendiente: 0, 'En camino': 0, Entregado: 0, Cancelado: 0, 'Pendiente de pago': 0 };
   var totalVentas = 0, totalPedidos = allPedidos.length;
   var byPago = {};
   var byProducto = {};
-
+ 
   allPedidos.forEach(function(p) {
     var e = p['Estado'] || '';
     if (byEstado[e] !== undefined) byEstado[e]++;
@@ -878,7 +900,7 @@ function renderReportes() {
       });
     }
   });
-
+ 
   var ahora = new Date();
   var mes   = ahora.getMonth() + 1;
   var anio  = ahora.getFullYear();
@@ -886,7 +908,7 @@ function renderReportes() {
   var prodHtml = Object.keys(byProducto).sort(function(a,b){ return byProducto[b]-byProducto[a]; }).slice(0,8).map(function(k){
     return '<div class="report-item"><span style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + k + '">' + k + '</span><span class="report-val">' + byProducto[k] + '</span></div>';
   }).join('');
-
+ 
   cont.innerHTML =
     '<div class="report-card"><h3>📊 Resumen general <span style="font-size:11px;color:var(--muted);font-weight:400">(cancelados excluidos de totales)</span></h3>'
     + '<div class="report-item"><span>Total pedidos</span><span class="report-val">' + totalPedidos + '</span></div>'
@@ -904,7 +926,7 @@ function renderReportes() {
     + '<button onclick="generarSII(' + mes + ',' + anio + ')" style="background:#1A3A6B;color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:13px;font-weight:700;cursor:pointer;width:100%">📤 Generar Libro SII — ' + mes + '/' + anio + '</button>'
     + '</div>';
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // STOCK
 // ══════════════════════════════════════════════════════
@@ -934,7 +956,7 @@ function renderStock() {
     })
     .catch(function(){ cont.innerHTML = '<div class="table-empty"><p>Error al cargar stock.</p></div>'; });
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // ORDER DETAIL MODAL
 // ══════════════════════════════════════════════════════
@@ -949,12 +971,12 @@ function openDetail(id) {
   }
   renderDetail(pedido);
 }
-
+ 
 function renderDetail(p) {
   var id     = p['Número de Pedido'] || p['ID Pedido'] || '';
   var estado = p['Estado'] || '—';
   document.getElementById('detailModalTitle').textContent = 'Pedido ' + id;
-
+ 
   var items = formatItems(p);
   var body = document.getElementById('detailModalBody');
   body.innerHTML =
@@ -1003,12 +1025,12 @@ function renderDetail(p) {
     + '<button onclick="aplicarCambioMetodoPago(\'' + id + '\')" style="padding:9px 14px;background:var(--fire);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">Aplicar</button>'
     + '</div>'
     + '</div>';
-
+ 
   document.getElementById('detailModalBack').classList.add('open');
 }
-
+ 
 function closeDetail() { document.getElementById('detailModalBack').classList.remove('open'); }
-
+ 
 // ══════════════════════════════════════════════════════
 // CAMBIAR ESTADO RÁPIDO
 // ══════════════════════════════════════════════════════
@@ -1028,7 +1050,7 @@ function cambiarEstadoRapido(id, nuevoEstado) {
     })
     .catch(function(){ showLoader(false); toast('Error de conexión', 'err'); });
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // UI HELPERS
 // ══════════════════════════════════════════════════════
@@ -1037,7 +1059,7 @@ function showLoader(show, txt) {
   l.classList.toggle('show', show);
   if (txt) document.getElementById('loaderTxt').textContent = txt;
 }
-
+ 
 function toast(msg, tipo) {
   var w = document.getElementById('toasts');
   var d = document.createElement('div');
@@ -1046,7 +1068,7 @@ function toast(msg, tipo) {
   w.appendChild(d);
   setTimeout(function(){ d.style.opacity = '0'; d.style.transition = 'opacity .4s'; setTimeout(function(){ d.remove(); }, 400); }, 4000);
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // BOOT — check session
 // ══════════════════════════════════════════════════════
@@ -1061,7 +1083,7 @@ window.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Enter') doLogin();
   });
 });
-
+ 
 // ══════════════════════════════════════════════════════
 // IMPRIMIR / PDF RECIBO
 // ══════════════════════════════════════════════════════
@@ -1077,7 +1099,7 @@ function imprimirRecibo(id) {
   }
   _abrirVentanaRecibo(id, p);
 }
-
+ 
 function _abrirVentanaRecibo(id, p) {
   var estado    = p['Estado'] || '—';
   var nombre    = p['Nombre Cliente'] || '—';
@@ -1090,10 +1112,10 @@ function _abrirVentanaRecibo(id, p) {
   var total     = parseInt(p['Total CLP'] || p['Total'] || 0);
   var fecha     = p['Fecha'] || '—';
   var obs       = p['Observaciones'] || '';
-
+ 
   var estadoColor = { Pendiente:'#F59E0B','En camino':'#06B6D4',Entregado:'#22C55E',Cancelado:'#EF4444','Pendiente de pago':'#6366f1' };
   var eColor    = estadoColor[estado] || '#6B7280';
-
+ 
   // Parsear líneas del detalle
   var lineas = String(detalle).split('\n').filter(function(l){ return l && !l.startsWith('──') && !l.startsWith('SUBTOTAL'); });
   var tbRows  = lineas.map(function(l) {
@@ -1104,9 +1126,9 @@ function _abrirVentanaRecibo(id, p) {
       + '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:right">$' + m[3] + '</td>'
       + '<td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:right">$' + m[4] + '</td></tr>';
   }).join('');
-
+ 
   var descRow = desc > 0 ? '<tr><td colspan="3" style="padding:8px 10px;color:#22c55e;font-weight:700">Descuento</td><td style="padding:8px 10px;text-align:right;color:#22c55e;font-weight:700">-$' + desc.toLocaleString('es-CL') + '</td></tr>' : '';
-
+ 
   var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Recibo ' + id + '</title>'
     + '<style>body{font-family:Georgia,serif;margin:0;background:#fff}@media print{.no-print{display:none}}'
     + '.hdr{background:linear-gradient(135deg,#E8521A,#FF7043);padding:28px 32px;display:flex;align-items:center;gap:16px}'
@@ -1144,12 +1166,12 @@ function _abrirVentanaRecibo(id, p) {
     + '<div class="ftr-r">Generado: ' + new Date().toLocaleString('es-CL') + '</div></div>'
     + '<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>'
     + '</body></html>';
-
+ 
   var w = window.open('', '_blank', 'width=700,height=900');
   w.document.write(html);
   w.document.close();
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // CAMBIAR MÉTODO DE PAGO
 // ══════════════════════════════════════════════════════
@@ -1174,7 +1196,7 @@ function aplicarCambioMetodoPago(id) {
     })
     .catch(function(){ showLoader(false); toast('Error de conexión', 'err'); });
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // REPORTE SII
 // ══════════════════════════════════════════════════════
@@ -1191,4 +1213,3 @@ function generarSII(mes, anio) {
 </script>
 </body>
 </html>
-
