@@ -344,6 +344,10 @@ input, select, textarea { font-family: inherit; }
       <div class="nav-item" onclick="navTo('stock',this)">
         <span class="ni-icon">📦</span> Stock
       </div>
+      <div class="nav-section" style="margin-top:8px">Acciones</div>
+      <div class="nav-item" onclick="navTo('nuevopedido',this)">
+        <span class="ni-icon">➕</span> Nuevo Pedido
+      </div>
     </nav>
     <div class="sidebar-footer">
       Tu Gas v6.0<br>
@@ -376,6 +380,7 @@ input, select, textarea { font-family: inherit; }
       <div class="mobile-nav-item" onclick="navTo('cancelados',this)">❌ Cancelados</div>
       <div class="mobile-nav-item" onclick="navTo('reportes',this)">📊 Reportes</div>
       <div class="mobile-nav-item" onclick="navTo('stock',this)">📦 Stock</div>
+      <div class="mobile-nav-item" onclick="navTo('nuevopedido',this)">➕ Nuevo Pedido</div>
     </div>
  
     <div class="content">
@@ -515,6 +520,94 @@ input, select, textarea { font-family: inherit; }
         <div class="section-head"><h2>📦 Stock Actual</h2></div>
         <div class="table-wrap">
           <div style="padding:20px" id="stockContent"><div class="table-loading">⏳ Cargando stock…</div></div>
+        </div>
+      </div>
+ 
+      <!-- ─── VIEW: NUEVO PEDIDO ─── -->
+      <div class="view" id="view-nuevopedido">
+        <div class="section-head"><h2>➕ Nuevo Pedido Manual</h2></div>
+        <div style="max-width:680px;margin:0 auto;padding:0 4px">
+ 
+          <!-- Datos del cliente -->
+          <div class="table-wrap" style="padding:20px;margin-bottom:16px">
+            <div style="font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px">👤 Datos del cliente</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Nombre *</label>
+                <input id="np_nombre" class="form-inp" type="text" placeholder="María González">
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Teléfono *</label>
+                <input id="np_tel" class="form-inp" type="tel" placeholder="+56 9 1234 5678">
+              </div>
+            </div>
+            <div style="margin-top:12px">
+              <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Dirección de entrega *</label>
+              <input id="np_dir" class="form-inp" type="text" placeholder="Calle 123, Dpto 4B, Macul">
+            </div>
+            <div style="margin-top:12px">
+              <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Email (opcional)</label>
+              <input id="np_email" class="form-inp" type="email" placeholder="cliente@email.com">
+            </div>
+          </div>
+ 
+          <!-- Productos -->
+          <div class="table-wrap" style="padding:20px;margin-bottom:16px">
+            <div style="font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px">📦 Productos</div>
+            <div id="np_items_list" style="margin-bottom:12px"></div>
+            <div style="display:grid;grid-template-columns:2fr 1fr auto;gap:10px;align-items:end">
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Producto</label>
+                <select id="np_prod_sel" class="form-inp" style="width:100%">
+                  <option value="">— Selecciona producto —</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Cantidad</label>
+                <input id="np_prod_qty" class="form-inp" type="number" value="1" min="1" max="50" style="text-align:center">
+              </div>
+              <button onclick="npAgregarProducto()" style="padding:10px 16px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">+ Agregar</button>
+            </div>
+            <div id="np_subtotal_row" style="display:none;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-weight:700;display:flex;justify-content:space-between">
+              <span>Subtotal</span><span id="np_subtotal_val" style="color:var(--fire)">$0</span>
+            </div>
+          </div>
+ 
+          <!-- Pago y descuento -->
+          <div class="table-wrap" style="padding:20px;margin-bottom:16px">
+            <div style="font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px">💳 Pago y descuento</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Método de pago *</label>
+                <select id="np_pago" class="form-inp" onchange="npActualizarTotal()">
+                  <option value="Efectivo">💵 Efectivo</option>
+                  <option value="Transferencia">🏦 Transferencia</option>
+                  <option value="Vale Abastible">🔴 Vale Abastible (+$500)</option>
+                  <option value="Vale Gasco">🔵 Vale Gasco (+$500)</option>
+                  <option value="Pago al recibir">📦 Pago al recibir</option>
+                  <option value="Sin pago">🎁 Sin pago / Cortesía</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Código descuento (opcional)</label>
+                <input id="np_descuento" class="form-inp" type="text" placeholder="QR1000, TUGAS10…" oninput="this.value=this.value.toUpperCase()">
+              </div>
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">Observaciones</label>
+              <textarea id="np_obs" class="form-inp" rows="2" placeholder="Instrucciones de entrega, timbre, etc." style="resize:vertical"></textarea>
+            </div>
+          </div>
+ 
+          <!-- Resumen y confirmar -->
+          <div class="table-wrap" style="padding:20px;margin-bottom:24px">
+            <div style="font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px">📋 Resumen</div>
+            <div id="np_resumen" style="color:var(--muted);font-size:13px">Agrega al menos un producto para ver el resumen.</div>
+            <button onclick="npConfirmar()" id="np_btn_confirmar"
+              style="width:100%;margin-top:16px;background:linear-gradient(135deg,var(--fire),var(--fire-lt));color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 24px rgba(232,82,26,.4)">
+              ✅ Crear Pedido
+            </button>
+          </div>
         </div>
       </div>
  
@@ -662,7 +755,8 @@ function navTo(view, el) {
   // Title
   var titles = {
     pedidos:'Todos los pedidos', pendientes:'Pendientes', encamino:'En camino',
-    entregados:'Entregados', cancelados:'Cancelados', reportes:'Reportes', stock:'Stock'
+    entregados:'Entregados', cancelados:'Cancelados', reportes:'Reportes', stock:'Stock',
+    nuevopedido:'Nuevo Pedido Manual'
   };
   document.getElementById('topbarTitle').textContent = titles[view] || view;
  
@@ -694,6 +788,7 @@ function renderCurrentView() {
     case 'cancelados': renderFiltered('Cancelado','canceladosBody',renderCanceladosRow); break;
     case 'reportes':   renderReportes(); break;
     case 'stock':      renderStock(); break;
+    case 'nuevopedido': npInicializar(); break;
   }
 }
  
@@ -1072,6 +1167,220 @@ function toast(msg, tipo) {
 // ══════════════════════════════════════════════════════
 // BOOT — check session
 // ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+// NUEVO PEDIDO MANUAL
+// ══════════════════════════════════════════════════════
+var npItems  = [];   // [{ nombre, marca, kg, tipo, precioUnit, cantidad, subtotal }]
+var npCatCache = {}; // cache del catálogo para no pedir dos veces
+ 
+function npInicializar() {
+  npItems = [];
+  npRenderItems();
+  npActualizarTotal();
+ 
+  // Cargar catálogo si no está en memoria
+  var cat = Object.keys(catalogo).length ? catalogo : npCatCache;
+  if (Object.keys(cat).length === 0) {
+    gasCall('getCatalogo').then(function(c) {
+      npCatCache = c;
+      npPoblarSelector(c);
+    });
+  } else {
+    npPoblarSelector(cat);
+  }
+}
+ 
+function npPoblarSelector(cat) {
+  var sel = document.getElementById('np_prod_sel');
+  if (!sel) return;
+  // Limpiar opciones anteriores excepto placeholder
+  while (sel.options.length > 1) sel.remove(1);
+  Object.keys(cat).forEach(function(marca) {
+    var kgs = Object.keys(cat[marca]).sort(function(a,b){ return parseInt(b)-parseInt(a); });
+    kgs.forEach(function(kg) {
+      var prod = cat[marca][kg];
+      var opt  = document.createElement('option');
+      opt.value = JSON.stringify({ marca:marca, kg:parseInt(kg), nombre:prod.nombre, precio:parseInt(prod.precio), tipo:'gas' });
+      opt.textContent = prod.nombre + ' — $' + parseInt(prod.precio).toLocaleString('es-CL');
+      sel.appendChild(opt);
+    });
+  });
+  // Agregar agua
+  [
+    { nombre:'Agua Premium 20L',   precio:4500 },
+    { nombre:'Agua Essential 20L', precio:3200 }
+  ].forEach(function(a) {
+    var opt  = document.createElement('option');
+    opt.value = JSON.stringify({ marca:'Agua', kg:20, nombre:a.nombre, precio:a.precio, tipo:'agua' });
+    opt.textContent = a.nombre + ' — $' + a.precio.toLocaleString('es-CL');
+    sel.appendChild(opt);
+  });
+}
+ 
+function npAgregarProducto() {
+  var sel = document.getElementById('np_prod_sel');
+  var qty = parseInt(document.getElementById('np_prod_qty').value || 1);
+  if (!sel || !sel.value) { toast('Selecciona un producto', 'err'); return; }
+  if (qty <= 0)            { toast('La cantidad debe ser mayor a 0', 'err'); return; }
+ 
+  var prod = JSON.parse(sel.value);
+  var existente = npItems.find(function(i){ return i.nombre === prod.nombre; });
+  if (existente) {
+    existente.cantidad += qty;
+    existente.subtotal  = existente.cantidad * existente.precioUnit;
+  } else {
+    npItems.push({
+      tipo: prod.tipo, marca: prod.marca, kg: prod.kg,
+      nombre: prod.nombre, precioUnit: prod.precio,
+      cantidad: qty, subtotal: qty * prod.precio
+    });
+  }
+  // Resetear selector y cantidad
+  sel.value = '';
+  document.getElementById('np_prod_qty').value = 1;
+  npRenderItems();
+  npActualizarTotal();
+  toast('✅ ' + prod.nombre + ' agregado', 'ok');
+}
+ 
+function npQuitarItem(idx) {
+  npItems.splice(idx, 1);
+  npRenderItems();
+  npActualizarTotal();
+}
+ 
+function npCambiarQty(idx, d) {
+  var item = npItems[idx];
+  if (!item) return;
+  item.cantidad = Math.max(1, item.cantidad + d);
+  item.subtotal = item.cantidad * item.precioUnit;
+  npRenderItems();
+  npActualizarTotal();
+}
+ 
+function npRenderItems() {
+  var cont = document.getElementById('np_items_list');
+  if (!cont) return;
+  if (npItems.length === 0) {
+    cont.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Sin productos aún — usa el selector de abajo.</div>';
+    return;
+  }
+  cont.innerHTML = npItems.map(function(item, idx) {
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">'
+      + '<div style="flex:1;font-size:13px;font-weight:600">' + item.nombre + '</div>'
+      + '<div style="display:flex;align-items:center;gap:6px">'
+      + '<button onclick="npCambiarQty(' + idx + ',-1)" style="width:28px;height:28px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:14px">−</button>'
+      + '<span style="min-width:24px;text-align:center;font-weight:700">' + item.cantidad + '</span>'
+      + '<button onclick="npCambiarQty(' + idx + ',1)"  style="width:28px;height:28px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:14px">+</button>'
+      + '</div>'
+      + '<div style="min-width:90px;text-align:right;font-weight:700;color:var(--fire)">$' + item.subtotal.toLocaleString('es-CL') + '</div>'
+      + '<button onclick="npQuitarItem(' + idx + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px;padding:4px">🗑</button>'
+      + '</div>';
+  }).join('');
+}
+ 
+function npActualizarTotal() {
+  var subtotal   = npItems.reduce(function(s,i){ return s + i.subtotal; }, 0);
+  var pagoSel    = document.getElementById('np_pago');
+  var pago       = pagoSel ? pagoSel.value : 'Efectivo';
+  var esVale_    = pago === 'Vale Abastible' || pago === 'Vale Gasco';
+  var cargoVale  = esVale_ ? 500 : 0;
+  var total      = subtotal + cargoVale;
+ 
+  var resumen = document.getElementById('np_resumen');
+  var subRow  = document.getElementById('np_subtotal_row');
+  var subVal  = document.getElementById('np_subtotal_val');
+ 
+  if (!resumen) return;
+ 
+  if (npItems.length === 0) {
+    resumen.innerHTML = '<span style="color:var(--muted);font-size:13px">Agrega al menos un producto para ver el resumen.</span>';
+    if (subRow) subRow.style.display = 'none';
+    return;
+  }
+ 
+  if (subRow) subRow.style.display = 'flex';
+  if (subVal) subVal.textContent = '$' + subtotal.toLocaleString('es-CL');
+ 
+  var html = npItems.map(function(i){
+    return '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>' + i.nombre + ' ×' + i.cantidad + '</span><span>$' + i.subtotal.toLocaleString('es-CL') + '</span></div>';
+  }).join('');
+  if (cargoVale) html += '<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--warn);margin-bottom:4px"><span>Cargo vale</span><span>+$500</span></div>';
+  html += '<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:800;margin-top:10px;padding-top:10px;border-top:2px solid var(--fire)">'
+        + '<span>TOTAL</span><span style="color:var(--fire)">$' + total.toLocaleString('es-CL') + '</span></div>';
+  resumen.innerHTML = html;
+}
+ 
+function npConfirmar() {
+  var nombre = (document.getElementById('np_nombre').value || '').trim();
+  var tel    = (document.getElementById('np_tel').value    || '').trim();
+  var dir    = (document.getElementById('np_dir').value    || '').trim();
+  var email  = (document.getElementById('np_email').value  || '').trim();
+  var obs    = (document.getElementById('np_obs').value    || '').trim();
+  var pago   = document.getElementById('np_pago').value;
+  var codDesc= (document.getElementById('np_descuento').value || '').trim().toUpperCase();
+ 
+  if (!nombre) { toast('Nombre del cliente requerido', 'err'); document.getElementById('np_nombre').focus(); return; }
+  if (!tel)    { toast('Teléfono requerido', 'err');           document.getElementById('np_tel').focus();    return; }
+  if (!dir)    { toast('Dirección requerida', 'err');          document.getElementById('np_dir').focus();    return; }
+  if (npItems.length === 0) { toast('Agrega al menos un producto', 'err'); return; }
+ 
+  var subtotal  = npItems.reduce(function(s,i){ return s + i.subtotal; }, 0);
+  var esVale_   = pago === 'Vale Abastible' || pago === 'Vale Gasco';
+  var cargoVale = esVale_ ? 500 : 0;
+  var total     = subtotal + cargoVale;
+ 
+  var payload = {
+    nombre: nombre, email: email, telefono: tel, direccion: dir,
+    metodoPago: pago, observaciones: obs ? '[ADMIN] ' + obs : '[Pedido ingresado manualmente por administración]',
+    items: npItems.map(function(i) {
+      return {
+        tipo_servicio: i.tipo,
+        marca:  i.tipo === 'gas' ? i.marca : '',
+        kg: i.kg, nombre: i.nombre,
+        precioUnit: i.precioUnit, cantidad: i.cantidad, subtotal: i.subtotal
+      };
+    }),
+    subtotal: subtotal, descuento: 0, cargoVales: cargoVale,
+    total: total, tipoDescuento: '', codigoDescuento: codDesc
+  };
+ 
+  var btn = document.getElementById('np_btn_confirmar');
+  btn.disabled = true;
+  btn.textContent = '⏳ Creando pedido…';
+  showLoader(true, 'Creando pedido…');
+ 
+  gasCall('crearPedido', { payload: payload })
+    .then(function(res) {
+      showLoader(false);
+      btn.disabled = false;
+      btn.textContent = '✅ Crear Pedido';
+      if (res.ok) {
+        toast('🎉 Pedido ' + res.pedidoID + ' creado — $' + total.toLocaleString('es-CL'), 'ok');
+        // Limpiar formulario
+        npItems = [];
+        ['np_nombre','np_tel','np_dir','np_email','np_obs','np_descuento'].forEach(function(id){
+          var el = document.getElementById(id); if (el) el.value = '';
+        });
+        document.getElementById('np_pago').value = 'Efectivo';
+        npRenderItems();
+        npActualizarTotal();
+        // Actualizar lista de pedidos en background
+        refreshAll();
+      } else {
+        toast('Error: ' + (res.error || 'Revisa los datos e inténtalo de nuevo'), 'err');
+      }
+    })
+    .catch(function(e) {
+      showLoader(false);
+      btn.disabled = false;
+      btn.textContent = '✅ Crear Pedido';
+      toast('Error de conexión: ' + e, 'err');
+    });
+}
+// ══════════════════════════════════════════════════════
+// BOOT — check session
+// ══════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', function() {
   if (sessionStorage.getItem('tg_admin')) {
     document.getElementById('loginScreen').style.display = 'none';
@@ -1213,3 +1522,4 @@ function generarSII(mes, anio) {
 </script>
 </body>
 </html>
+ 
