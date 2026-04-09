@@ -890,7 +890,7 @@ footer { background: var(--dark); color: rgba(255,255,255,.5); padding: 40px 20p
 // ══════════════════════════════════════════════════════════════
 // CONFIGURACIÓN — Pega aquí la URL de tu Google Apps Script
 // ══════════════════════════════════════════════════════════════
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyPnu3t-eFp5FYwUUn4EWsx3TqYutp0iBomtVIFlUCM66BLp_k11uONXu0-OHsu7Ss/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbxD_TD-QNFz1EJB-6zIbe0OlnOAQbP0PfXZ7Wp6RdZsEcetVLPiSzbUwlqJBiUqjN5M/exec';
  
 // ══════════════════════════════════════════════════════════════
 // HELPER: Fetch al backend GAS
@@ -1097,12 +1097,14 @@ function renderCart() {
   var disc  = document.getElementById('drawerDisc');
  
   if (carrito.length === 0) {
-    cont.innerHTML = ''; cont.appendChild(empty);
-    empty.style.display = 'block';
+    // Usar innerHTML en lugar de appendChild para no perder la referencia al nodo
+    cont.innerHTML = '<div class="cart-empty-msg" style="text-align:center;padding:40px 20px;color:var(--muted)">'
+      + '<div style="font-size:36px;margin-bottom:10px">🛒</div>'
+      + '<p style="font-weight:700;margin-bottom:5px">Tu carrito está vacío</p>'
+      + '<p style="font-size:12px">Agrega gas o agua para comenzar</p></div>';
     foot.style.display = 'none'; disc.style.display = 'none';
     descuento = null; return;
   }
-  empty.style.display = 'none';
   foot.style.display = 'block'; disc.style.display = 'block';
  
   var html = '';
